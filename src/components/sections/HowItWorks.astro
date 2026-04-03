@@ -27,7 +27,7 @@ const { howItWorks } = getContent();
       {
         howItWorks.steps.map((step, i) => (
           <div class="card bg-base-100 shadow-sm">
-            <div class="card-body">
+            <div class="card-body text-center md:text-left items-center md:items-start">
               <div class="badge badge-primary mb-2">
                 {String(i + 1).padStart(2, "0")}
               </div>

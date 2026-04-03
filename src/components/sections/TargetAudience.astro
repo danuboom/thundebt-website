@@ -19,7 +19,7 @@ const { targetAudience } = getContent();
       {
         targetAudience.items.map((item) => (
           <div class="card bg-base-200 shadow-sm">
-            <div class="card-body">
+            <div class="card-body text-center md:text-left items-center md:items-start">
               <div class="text-3xl mb-2">{item.icon}</div>
               <h3 class="card-title text-base">{item.title}</h3>
               <p class="text-base-content/70 text-sm leading-relaxed">{item.description}</p>

@@ -20,7 +20,7 @@ const lineSocial = siteConfig.socials.find((social) => social.platform === "LINE
     <div class="space-y-2">
       {
         faq.items.map((item, i) => (
-          <div class="collapse collapse-arrow bg-base-200">
+          <div class="collapse collapse-arrow bg-base-200 text-center md:text-left">
             <input type="radio" name="faq-accordion" checked={i === 0} />
             <div class="collapse-title font-semibold">{item.question}</div>
             <div class="collapse-content">
