@@ -1,5 +1,5 @@
 ---
-import { siteConfig, getLocaleData } from "../config/siteConfig";
+import { siteConfig, getContent } from "../config/siteConfig";
 import { Font } from "astro:assets";
 import Navbar from "../components/Navbar.astro";
 import SocialIcon from "../components/SocialIcon.astro";
@@ -12,23 +12,21 @@ interface Props {
   ogImage?: string;
 }
 
-const currentLocale = Astro.currentLocale || "en";
-const t = getLocaleData(currentLocale);
+const c = getContent();
 const { seo, businessName, footer } = siteConfig;
 
 const {
-  title = t.seoTitle,
-  description = t.description,
+  title = c.seoTitle,
+  description = c.description,
   ogImage = seo.ogImage,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl);
-const ogLocale = currentLocale === "th" ? "th_TH" : "en_US";
-const altOgLocale = currentLocale === "th" ? "en_US" : "th_TH";
+const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
 ---
 
 <!doctype html>
-<html lang={currentLocale} data-theme={siteConfig.theme.default} class="scroll-smooth">
+<html lang="th" data-theme={siteConfig.theme.default} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,11 +36,6 @@ const altOgLocale = currentLocale === "th" ? "en_US" : "th_TH";
 
     <link rel="canonical" href={canonicalUrl.href} />
 
-    <!-- hreflang — tell search engines about language versions -->
-    <link rel="alternate" hreflang="en" href={new URL("/", siteConfig.siteUrl).href} />
-    <link rel="alternate" hreflang="th" href={new URL("/th/", siteConfig.siteUrl).href} />
-    <link rel="alternate" hreflang="x-default" href={new URL("/", siteConfig.siteUrl).href} />
-
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -50,41 +43,18 @@ const altOgLocale = currentLocale === "th" ? "en_US" : "th_TH";
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:image" content={new URL(ogImage, siteConfig.siteUrl).href} />
     <meta property="og:site_name" content={businessName} />
-    <meta property="og:locale" content={ogLocale} />
-    <meta property="og:locale:alternate" content={altOgLocale} />
+    <meta property="og:locale" content="th_TH" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, siteConfig.siteUrl).href} />
-    {seo.twitterHandle && <meta name="twitter:site" content={seo.twitterHandle} />}
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <Font cssVariable="--font-inter" preload />
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
     <Font cssVariable="--font-noto-sans-thai" preload />
 
     <title>{title}</title>
 
-    <!-- Pre-paint: language redirect + theme application — prevents flash -->
-    <script is:inline>
-      (function () {
-        // Language auto-detect / redirect
-        var pref = localStorage.getItem("lang-pref");
-        var isTh = window.location.pathname.indexOf("/th") === 0;
-        if (pref === "th" && !isTh) { window.location.replace("/th/"); return; }
-        if (pref === "en" && isTh) { window.location.replace("/"); return; }
-        if (!pref) {
-          var lang = ((navigator.languages && navigator.languages[0]) || navigator.language || "en").slice(0, 2);
-          localStorage.setItem("lang-pref", lang === "th" ? "th" : "en");
-          if (lang === "th" && !isTh) window.location.replace("/th/");
-        }
-        // Theme — apply saved preference or respect system setting
-        var theme = localStorage.getItem("theme-pref");
-        if (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches) theme = "business";
-        if (theme) document.documentElement.setAttribute("data-theme", theme);
-      })();
-    </script>
   </head>
   <body class="min-h-screen bg-base-100 text-base-content antialiased">
     <Navbar />

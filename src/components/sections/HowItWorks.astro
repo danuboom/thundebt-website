@@ -1,20 +1,23 @@
 ---
-import { getLocaleData } from "../../config/siteConfig";
+/**
+ * Section 3 — ระบบทำงานยังไง (How It Works)
+ * 3-step process with DaisyUI steps + detail cards.
+ */
+import { getContent } from "../../config/siteConfig";
 
-const t = getLocaleData(Astro.currentLocale);
-const { process } = t;
+const { howItWorks } = getContent();
 ---
 
-<section id="process" class="bg-base-100 py-20 md:py-28">
+<section id="how-it-works" class="bg-base-200 py-20 md:py-28">
   <div class="mx-auto max-w-6xl px-6">
     <div class="mb-14 text-center">
-      <div class="badge badge-primary badge-outline mb-3">{process.badge}</div>
-      <h2 class="text-3xl font-bold md:text-4xl">{process.title}</h2>
+      <div class="badge badge-primary badge-outline mb-3">{howItWorks.badge}</div>
+      <h2 class="text-3xl font-bold md:text-4xl">{howItWorks.title}</h2>
     </div>
 
     <!-- Steps indicator -->
     <ul class="steps steps-vertical lg:steps-horizontal w-full mb-12">
-      {process.steps.map((step) => (
+      {howItWorks.steps.map((step) => (
         <li class="step step-primary">{step.title}</li>
       ))}
     </ul>
@@ -22,8 +25,8 @@ const { process } = t;
     <!-- Detail cards -->
     <div class="grid gap-6 md:grid-cols-3">
       {
-        process.steps.map((step, i) => (
-          <div class="card bg-base-200 shadow-sm">
+        howItWorks.steps.map((step, i) => (
+          <div class="card bg-base-100 shadow-sm">
             <div class="card-body">
               <div class="badge badge-primary mb-2">
                 {String(i + 1).padStart(2, "0")}

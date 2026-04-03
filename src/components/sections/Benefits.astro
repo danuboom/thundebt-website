@@ -1,0 +1,32 @@
+---
+/**
+ * Section 4 — สิ่งที่ผู้ใช้จะได้รับ (Benefits)
+ * Card grid showing what users get from THUNDEBT.
+ */
+import { getContent } from "../../config/siteConfig";
+
+const { benefits } = getContent();
+---
+
+<section id="benefits" class="bg-base-100 py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-14 text-center">
+      <div class="badge badge-accent badge-outline mb-3">{benefits.badge}</div>
+      <h2 class="text-3xl font-bold md:text-4xl">{benefits.title}</h2>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        benefits.items.map((item) => (
+          <div class="card bg-base-200 shadow-sm hover:shadow-md transition-shadow">
+            <div class="card-body">
+              <div class="text-3xl mb-2">{item.icon}</div>
+              <h3 class="card-title text-base">{item.title}</h3>
+              <p class="text-base-content/70 text-sm leading-relaxed">{item.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

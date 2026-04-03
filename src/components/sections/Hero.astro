@@ -1,35 +1,32 @@
 ---
 /**
- * Hero — full-viewport landing section with gradient heading,
- * staggered fade-in animation, and dual CTA buttons.
+ * Hero — full-viewport landing section with headline,
+ * subheadline, and dual CTA buttons (app + LINE).
  */
-import { siteConfig, getLocaleData } from "../../config/siteConfig";
-import heroBg from "../../assets/images/hero/hero-placeholder.svg";
+import SocialIcon from "../SocialIcon.astro";
+import { siteConfig, getContent } from "../../config/siteConfig";
 
-const t = getLocaleData(Astro.currentLocale);
-const { hero } = t;
+const { hero } = getContent();
+const lineSocial = siteConfig.socials.find((social) => social.platform === "LINE");
 ---
 
 <section id="hero" class="hero min-h-screen bg-primary text-primary-content relative overflow-hidden">
-  <img
-    src={heroBg.src}
-    alt=""
-    width="1920"
-    height="1080"
-    loading="eager"
-    decoding="async"
-    class="absolute inset-0 w-full h-full object-cover opacity-20 select-none mix-blend-overlay"
-  />
-  <div class="hero-content text-center">
+  <div class="hero-content text-center px-4">
     <div class="max-w-2xl">
-      <h1 class="text-5xl font-extrabold tracking-tight md:text-7xl animate-fade-in-up">
-        <span class="hero-gradient-text">{siteConfig.businessName}</span>
+      <h1 class="text-4xl font-extrabold tracking-tight md:text-6xl animate-fade-in-up">
+        {hero.headline}
       </h1>
-      <p class="py-6 text-xl opacity-80 md:text-2xl animate-fade-in-up-delay">{hero.headline}</p>
-      <p class="mb-8 opacity-60 animate-fade-in-up-delay-2">{hero.subheadline}</p>
+      <p class="py-6 text-lg opacity-80 md:text-xl animate-fade-in-up-delay">
+        {hero.subheadline}
+      </p>
       <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-center animate-fade-in-up-delay-2">
-        <a href={hero.cta.href} class="btn btn-accent btn-lg">{hero.cta.label}</a>
-        <a href={hero.ctaSecondary.href} class="btn btn-ghost btn-lg border border-current/20">{hero.ctaSecondary.label}</a>
+        <a href={hero.cta.href} target="_blank" rel="noopener noreferrer" class="btn btn-accent btn-lg w-full sm:w-auto">
+          {hero.cta.label}
+        </a>
+        <a href={hero.ctaSecondary.href} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg border border-current/20 w-full sm:w-auto">
+          {lineSocial && <SocialIcon svg={lineSocial.svg} class="h-5 w-5" />}
+          {hero.ctaSecondary.label}
+        </a>
       </div>
     </div>
   </div>

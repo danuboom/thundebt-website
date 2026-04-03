@@ -1,15 +1,13 @@
 @import "tailwindcss";
 
-/* ─── DaisyUI plugin — swap themes to customize the look ─── */
-/* All themes: https://daisyui.com/docs/themes/          ─── */
+/* ─── DaisyUI plugin ─── */
 @plugin "daisyui" {
-  themes: corporate --default, business --prefersdark;
+  themes: corporate --default;
 }
 
-/* ─── Font — Astro 6 built-in Fonts API ─── */
-/* Inter (EN) + Noto Sans Thai (TH) registered via astro.config.mjs */
+/* ─── Font — Noto Sans Thai via Astro Fonts API ─── */
 @theme inline {
-  --font-sans: var(--font-inter), var(--font-noto-sans-thai), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-noto-sans-thai), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ─── Base resets ─── */
@@ -19,14 +17,6 @@ html {
 
 section[id] {
   scroll-margin-top: 4.5rem;
-}
-
-/* ─── Hero gradient text ─── */
-.hero-gradient-text {
-  background: linear-gradient(135deg, oklch(var(--pc)) 0%, oklch(var(--ac)) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* ─── Fade-in animation ─── */

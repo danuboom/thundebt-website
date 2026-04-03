@@ -1,21 +1,21 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getLocaleData } from "../config/siteConfig";
+import { getContent } from "../config/siteConfig";
 import Hero from "../components/sections/Hero.astro";
-import About from "../components/sections/About.astro";
-import Services from "../components/sections/Services.astro";
-import Process from "../components/sections/Process.astro";
-import Contact from "../components/sections/Contact.astro";
+import TargetAudience from "../components/sections/TargetAudience.astro";
+import HowItWorks from "../components/sections/HowItWorks.astro";
+import Benefits from "../components/sections/Benefits.astro";
+import CtaFaq from "../components/sections/CtaFaq.astro";
 
-const t = getLocaleData(Astro.currentLocale);
+const c = getContent();
 ---
 
-<Layout title={t.seoTitle} description={t.description}>
+<Layout title={c.seoTitle} description={c.description}>
   <main>
     <Hero />
-    <About />
-    <Services />
-    <Process />
-    <Contact />
+    <TargetAudience />
+    <HowItWorks />
+    <Benefits />
+    <CtaFaq />
   </main>
 </Layout>

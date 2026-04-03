@@ -1,0 +1,51 @@
+---
+/**
+ * Final FAQ and closing CTA section.
+ */
+import SocialIcon from "../SocialIcon.astro";
+import { siteConfig, getContent } from "../../config/siteConfig";
+
+const { finalCta, faq, hero } = getContent();
+const lineSocial = siteConfig.socials.find((social) => social.platform === "LINE");
+---
+
+<!-- FAQ -->
+<section id="faq" class="bg-base-100 py-20 md:py-28">
+  <div class="mx-auto max-w-3xl px-6">
+    <div class="mb-14 text-center">
+      <div class="badge badge-primary badge-outline mb-3">{faq.badge}</div>
+      <h2 class="text-3xl font-bold md:text-4xl">{faq.title}</h2>
+    </div>
+
+    <div class="space-y-2">
+      {
+        faq.items.map((item, i) => (
+          <div class="collapse collapse-arrow bg-base-200">
+            <input type="radio" name="faq-accordion" checked={i === 0} />
+            <div class="collapse-title font-semibold">{item.question}</div>
+            <div class="collapse-content">
+              <p class="text-base-content/70 leading-relaxed">{item.answer}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section id="cta" class="bg-primary text-primary-content py-20 md:py-28">
+  <div class="mx-auto max-w-3xl px-6 text-center">
+    <h2 class="text-3xl font-bold md:text-4xl mb-4">{finalCta.title}</h2>
+    <p class="text-lg opacity-80 mb-8">{finalCta.subtitle}</p>
+    <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+      <a href={hero.cta.href} target="_blank" rel="noopener noreferrer" class="btn btn-accent btn-lg w-full sm:w-auto">
+        {hero.cta.label}
+      </a>
+      <a href={hero.ctaSecondary.href} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg border border-current/20 w-full sm:w-auto">
+        {lineSocial && <SocialIcon svg={lineSocial.svg} class="h-5 w-5" />}
+        {hero.ctaSecondary.label}
+      </a>
+    </div>
+  </div>
+</section>

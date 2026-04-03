@@ -1,0 +1,32 @@
+---
+/**
+ * Section 2 — เหมาะกับใคร (Target Audience)
+ * Card grid showing who THUNDEBT is for.
+ */
+import { getContent } from "../../config/siteConfig";
+
+const { targetAudience } = getContent();
+---
+
+<section id="target-audience" class="bg-base-100 py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-14 text-center">
+      <div class="badge badge-primary badge-outline mb-3">{targetAudience.badge}</div>
+      <h2 class="text-3xl font-bold md:text-4xl">{targetAudience.title}</h2>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2">
+      {
+        targetAudience.items.map((item) => (
+          <div class="card bg-base-200 shadow-sm">
+            <div class="card-body">
+              <div class="text-3xl mb-2">{item.icon}</div>
+              <h3 class="card-title text-base">{item.title}</h3>
+              <p class="text-base-content/70 text-sm leading-relaxed">{item.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
