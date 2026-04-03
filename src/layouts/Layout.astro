@@ -21,7 +21,9 @@ const {
   ogImage = seo.ogImage,
 } = Astro.props;
 
-const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl);
+const siteOrigin = Astro.site ?? new URL(siteConfig.siteUrl);
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin);
+const ogImageUrl = new URL(ogImage, siteOrigin);
 const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
 ---
 
@@ -41,7 +43,7 @@ const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl.href} />
-    <meta property="og:image" content={new URL(ogImage, siteConfig.siteUrl).href} />
+    <meta property="og:image" content={ogImageUrl.href} />
     <meta property="og:site_name" content={businessName} />
     <meta property="og:locale" content="th_TH" />
 
@@ -49,7 +51,7 @@ const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(ogImage, siteConfig.siteUrl).href} />
+    <meta name="twitter:image" content={ogImageUrl.href} />
     <link rel="icon" type="image/svg+xml" href={faviconHref} />
     <Font cssVariable="--font-noto-sans-thai" preload />
 

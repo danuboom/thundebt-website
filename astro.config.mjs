@@ -2,7 +2,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
-const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
+const isGitHubPages = process.env.DEPLOY_TARGET === "github-pages";
 
 // https://astro.build/config
 export default defineConfig({
