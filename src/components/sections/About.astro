@@ -1,0 +1,38 @@
+---
+import { getLocaleData } from "../../config/siteConfig";
+import aboutImg from "../../assets/images/about/about-placeholder.svg";
+
+const t = getLocaleData(Astro.currentLocale);
+const { about } = t;
+---
+
+<section id="about" class="bg-base-100 py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <!-- Text -->
+      <div>
+        <div class="badge badge-primary badge-outline mb-3">{about.badge}</div>
+        <h2 class="mb-6 text-3xl font-bold md:text-4xl">
+          {about.title}
+        </h2>
+        {
+          about.paragraphs.map((p) => (
+            <p class="mb-4 leading-relaxed text-base-content/70">{p}</p>
+          ))
+        }
+      </div>
+
+      <div class="overflow-hidden rounded-2xl">
+        <img
+          src={aboutImg.src}
+          alt="About Us"
+          width="800"
+          height="800"
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover"
+        />
+      </div>
+    </div>
+  </div>
+</section>

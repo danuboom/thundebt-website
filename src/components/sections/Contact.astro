@@ -1,0 +1,185 @@
+---
+import { siteConfig, getLocaleData } from "../../config/siteConfig";
+import SocialIcon from "../SocialIcon.astro";
+
+const t = getLocaleData(Astro.currentLocale);
+const { contact } = t;
+
+// Build a unified list of contact links — each becomes a card
+const contactLinks: { label: string; value: string; href: string; svg: string; viewBox?: string; external?: boolean }[] = [
+  {
+    label: "Phone",
+    value: siteConfig.phone,
+    href: `tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`,
+    svg: "M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z",
+  },
+  {
+    label: "Email",
+    value: siteConfig.email,
+    href: `mailto:${siteConfig.email}`,
+    svg: "M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4-8 5-8-5V6l8 5 8-5z",
+  },
+];
+
+// Append social links that have a url
+siteConfig.socials.forEach((s) => {
+  if (!s.url) return;
+  contactLinks.push({
+    label: s.platform,
+    value: s.platform,
+    href: s.url,
+    svg: s.svg,
+    viewBox: "viewBox" in s ? (s as any).viewBox : undefined,
+    external: true,
+  });
+});
+---
+
+<section id="contact" class="bg-base-200 py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="mb-14 text-center">
+      <div class="badge badge-accent badge-outline mb-3">{contact.badge}</div>
+      <h2 class="text-3xl font-bold md:text-4xl">{contact.title}</h2>
+    </div>
+
+    <div class="grid gap-8 lg:grid-cols-2">
+      <!-- Left: Unified contact / social cards + map -->
+      <div class="space-y-3">
+        {
+          contactLinks.map((item) => (
+            <a
+              href={item.href}
+              target={item.external ? "_blank" : undefined}
+              rel={item.external ? "noopener noreferrer" : undefined}
+              class="flex items-center gap-4 rounded-xl border border-base-content/10 bg-base-100 p-4 transition hover:border-primary hover:shadow-md"
+            >
+              <SocialIcon svg={item.svg} viewBox={item.viewBox} class="h-5 w-5 shrink-0 opacity-70" />
+              <div class="min-w-0">
+                <div class="text-xs text-base-content/50">{item.label}</div>
+                <div class="font-medium truncate">{item.value}</div>
+              </div>
+            </a>
+          ))
+        }
+
+        <!-- Map -->
+        <div class="overflow-hidden rounded-xl border border-base-content/10">
+          <iframe
+            src={siteConfig.mapEmbedUrl}
+            width="100%"
+            height="160"
+            style="border:0;"
+            allow="fullscreen"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title={`Map — ${siteConfig.businessName}`}
+          ></iframe>
+          <div class="bg-base-100 px-4 py-2 flex items-center justify-between gap-4">
+            <p class="text-xs text-base-content/50 truncate">{t.address}</p>
+            <a
+              href={siteConfig.mapLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link link-primary text-xs font-semibold whitespace-nowrap"
+            >
+              {t.map.btn}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Contact form -->
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body">
+          <form
+            id="contactForm"
+            action="https://api.web3forms.com/submit"
+            method="POST"
+            data-msg-success={contact.form.success}
+            data-msg-error={contact.form.error}
+            data-msg-sending={contact.form.sending}
+          >
+            <input type="hidden" name="access_key" value={siteConfig.web3formsKey} />
+            <input type="hidden" name="subject" value={`New Submission from ${siteConfig.businessName}`} />
+            <input type="hidden" name="redirect" value="/" />
+            <input type="checkbox" name="botcheck" class="hidden" style="display:none;" />
+
+            <fieldset class="fieldset mb-4">
+              <legend class="fieldset-legend">{contact.form.name}</legend>
+              <input type="text" name="name" required placeholder={contact.form.name} class="input w-full" />
+            </fieldset>
+
+            <fieldset class="fieldset mb-4">
+              <legend class="fieldset-legend">{contact.form.email}</legend>
+              <input type="email" name="email" required placeholder="your@email.com" class="input w-full" />
+            </fieldset>
+
+            <fieldset class="fieldset mb-6">
+              <legend class="fieldset-legend">{contact.form.message}</legend>
+              <textarea name="message" rows="4" required placeholder="..." class="textarea w-full"></textarea>
+            </fieldset>
+
+            <button
+              type="submit"
+              id="submitBtn"
+              class="btn btn-accent w-full"
+              data-label-send={contact.form.send}
+              data-label-sending={contact.form.sending}
+            >
+              {contact.form.send}
+            </button>
+
+            <p id="result" class="mt-3 text-sm font-medium text-center"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("contactForm") as HTMLFormElement | null;
+  const result = document.getElementById("result") as HTMLParagraphElement | null;
+  const submitBtn = document.getElementById("submitBtn") as HTMLButtonElement | null;
+
+  if (form && result && submitBtn) {
+    const msgSuccess = form.dataset.msgSuccess ?? "Message sent successfully!";
+    const msgError = form.dataset.msgError ?? "Something went wrong!";
+    const labelSend = submitBtn.dataset.labelSend ?? "Send Message";
+    const labelSending = submitBtn.dataset.labelSending ?? "Sending...";
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = labelSending;
+      result.className = "mt-3 text-sm font-medium text-center text-base-content/60";
+      result.textContent = labelSending;
+
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          result.className = "mt-3 text-sm font-medium text-center text-success";
+          result.textContent = data.message || msgSuccess;
+          form.reset();
+        } else {
+          result.className = "mt-3 text-sm font-medium text-center text-error";
+          result.textContent = data.message || msgError;
+        }
+      } catch {
+        result.className = "mt-3 text-sm font-medium text-center text-error";
+        result.textContent = msgError;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = labelSend;
+        setTimeout(() => { result.textContent = ""; }, 5000);
+      }
+    });
+  }
+</script>
+

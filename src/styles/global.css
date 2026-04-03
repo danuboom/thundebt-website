@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/* ─── DaisyUI plugin — swap themes to customize the look ─── */
+/* All themes: https://daisyui.com/docs/themes/          ─── */
+@plugin "daisyui" {
+  themes: corporate --default, business --prefersdark;
+}
+
+/* ─── Font — Astro 6 built-in Fonts API ─── */
+/* Inter (EN) + Noto Sans Thai (TH) registered via astro.config.mjs */
+@theme inline {
+  --font-sans: var(--font-inter), var(--font-noto-sans-thai), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ─── Base resets ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* ─── Hero gradient text ─── */
+.hero-gradient-text {
+  background: linear-gradient(135deg, oklch(var(--pc)) 0%, oklch(var(--ac)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Fade-in animation ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.animate-fade-in-up-delay {
+  animation: fadeInUp 0.8s ease-out 0.15s both;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}

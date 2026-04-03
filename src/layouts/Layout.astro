@@ -1,0 +1,131 @@
+---
+import { siteConfig, getLocaleData } from "../config/siteConfig";
+import { Font } from "astro:assets";
+import Navbar from "../components/Navbar.astro";
+import SocialIcon from "../components/SocialIcon.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const currentLocale = Astro.currentLocale || "en";
+const t = getLocaleData(currentLocale);
+const { seo, businessName, footer } = siteConfig;
+
+const {
+  title = t.seoTitle,
+  description = t.description,
+  ogImage = seo.ogImage,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl);
+const ogLocale = currentLocale === "th" ? "th_TH" : "en_US";
+const altOgLocale = currentLocale === "th" ? "en_US" : "th_TH";
+---
+
+<!doctype html>
+<html lang={currentLocale} data-theme={siteConfig.theme.default} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={seo.keywords.join(", ")} />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="canonical" href={canonicalUrl.href} />
+
+    <!-- hreflang — tell search engines about language versions -->
+    <link rel="alternate" hreflang="en" href={new URL("/", siteConfig.siteUrl).href} />
+    <link rel="alternate" hreflang="th" href={new URL("/th/", siteConfig.siteUrl).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL("/", siteConfig.siteUrl).href} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:image" content={new URL(ogImage, siteConfig.siteUrl).href} />
+    <meta property="og:site_name" content={businessName} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={altOgLocale} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, siteConfig.siteUrl).href} />
+    {seo.twitterHandle && <meta name="twitter:site" content={seo.twitterHandle} />}
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-noto-sans-thai" preload />
+
+    <title>{title}</title>
+
+    <!-- Pre-paint: language redirect + theme application — prevents flash -->
+    <script is:inline>
+      (function () {
+        // Language auto-detect / redirect
+        var pref = localStorage.getItem("lang-pref");
+        var isTh = window.location.pathname.indexOf("/th") === 0;
+        if (pref === "th" && !isTh) { window.location.replace("/th/"); return; }
+        if (pref === "en" && isTh) { window.location.replace("/"); return; }
+        if (!pref) {
+          var lang = ((navigator.languages && navigator.languages[0]) || navigator.language || "en").slice(0, 2);
+          localStorage.setItem("lang-pref", lang === "th" ? "th" : "en");
+          if (lang === "th" && !isTh) window.location.replace("/th/");
+        }
+        // Theme — apply saved preference or respect system setting
+        var theme = localStorage.getItem("theme-pref");
+        if (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches) theme = "business";
+        if (theme) document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen bg-base-100 text-base-content antialiased">
+    <Navbar />
+    <slot />
+    <ScrollToTop />
+
+    <!-- Footer -->
+    <footer class="footer footer-center bg-neutral text-neutral-content p-8">
+      <div>
+        <div class="flex flex-wrap justify-center gap-3 mb-4">
+          {
+            siteConfig.socials
+              .filter((s) => s.url)
+              .map((s) => (
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.platform}
+                  class="btn btn-ghost btn-circle btn-sm"
+                >
+                  <SocialIcon svg={s.svg} viewBox={"viewBox" in s ? (s as any).viewBox : undefined} class="h-5 w-5" />
+                </a>
+              ))
+          }
+        </div>
+        <p>
+          &copy; {new Date().getFullYear()} {businessName}. {footer.copyright}
+        </p>
+        {
+          footer.links.length > 0 && (
+            <nav class="flex gap-4">
+              {footer.links.map((link) => (
+                <a href={link.href} class="link link-hover text-sm">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          )
+        }
+      </div>
+    </footer>
+  </body>
+</html>

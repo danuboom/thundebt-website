@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getLocaleData } from "../../config/siteConfig";
+import Hero from "../../components/sections/Hero.astro";
+import About from "../../components/sections/About.astro";
+import Services from "../../components/sections/Services.astro";
+import Process from "../../components/sections/Process.astro";
+import Contact from "../../components/sections/Contact.astro";
+
+const t = getLocaleData(Astro.currentLocale);
+---
+
+<Layout title={t.seoTitle} description={t.description}>
+  <main>
+    <Hero />
+    <About />
+    <Services />
+    <Process />
+    <Contact />
+  </main>
+</Layout>

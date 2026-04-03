@@ -1,0 +1,33 @@
+---
+/**
+ * ScrollToTop — floating button that appears after scrolling past the hero fold.
+ * Smooth-scrolls back to #hero on click.
+ */
+---
+
+<button
+  id="scrollToTop"
+  aria-label="Scroll to top"
+  class="fixed bottom-6 right-6 z-50 btn btn-circle btn-primary shadow-lg opacity-0 pointer-events-none transition-all duration-300 translate-y-4"
+>
+  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+  </svg>
+</button>
+
+<script>
+  const btn = document.getElementById("scrollToTop");
+  if (btn) {
+    const show = () => {
+      const visible = window.scrollY > window.innerHeight * 0.6;
+      btn.classList.toggle("opacity-0", !visible);
+      btn.classList.toggle("pointer-events-none", !visible);
+      btn.classList.toggle("translate-y-4", !visible);
+    };
+    window.addEventListener("scroll", show, { passive: true });
+    show();
+    btn.addEventListener("click", () => {
+      document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+</script>
