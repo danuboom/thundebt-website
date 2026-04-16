@@ -16,7 +16,7 @@ const { seo, businessName, footer } = siteConfig;
 
 const {
   title = c.seoTitle,
-  description = c.description,
+  description = seo.defaultDescription ?? c.description,
   ogImage = seo.ogImage,
 } = Astro.props;
 
