@@ -13,5 +13,10 @@
     "astro": "^6.0.3",
     "daisyui": "^5.5.19",
     "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "@types/node": "^25.6.0",
+    "typescript": "^5.9.3"
   }
 }
