@@ -151,7 +151,7 @@ export const siteConfig = {
             href: "https://app.thundebt.com",
           },
           features: [
-            { text: "รองในศาล / ทางไปต่อ", included: true, detail: "" },
+            { text: "ธงในศาล / ทางไปต่อ", included: true, detail: "" },
             { text: "ระดับความเร่งด่วน", included: true, detail: "" },
             { text: "สิ่งที่ระบบพบเบื้องต้น", included: true, detail: "" },
             {
@@ -198,7 +198,7 @@ export const siteConfig = {
             href: "#cta",
           },
           features: [
-            { text: "รองในศาล / ทางไปต่อ", included: true, detail: "" },
+            { text: "ธงในศาล / ทางไปต่อ", included: true, detail: "" },
             { text: "ระดับความเร่งด่วน", included: true, detail: "" },
             { text: "สิ่งที่ระบบพบเบื้องต้น", included: true, detail: "" },
             {
