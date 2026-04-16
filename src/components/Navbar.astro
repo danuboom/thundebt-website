@@ -2,35 +2,36 @@
 /**
  * Navbar — fixed top navigation with scroll-spy.
  */
+import { Image } from "astro:assets";
 import { siteConfig, getContent } from "../config/siteConfig";
+import logo from "../assets/images/brand/logo-1.svg";
 
 const nav = getContent().nav;
 
 const navLinks = [
-  { href: "#target-audience", label: nav.targetAudience },
-  { href: "#how-it-works", label: nav.howItWorks },
-  { href: "#benefits", label: nav.benefits },
+  { href: "#pain-points", label: nav.painPoints },
+  { href: "#packages", label: nav.packages },
   { href: "#faq", label: nav.faq },
 ];
 ---
 
-<div class="navbar bg-base-100/80 backdrop-blur-md fixed top-0 z-50 shadow-sm">
+<div class="navbar bg-base-100/70 backdrop-blur-lg fixed top-0 z-50 shadow-sm border-b border-primary/5 px-2 md:px-4">
   <!-- Mobile dropdown -->
   <div class="navbar-start">
-    <div class="dropdown">
-      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+    <details class="dropdown lg:hidden">
+      <summary class="btn btn-ghost mobile-menu-toggle border border-transparent">
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-      </div>
-      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
+      </summary>
+      <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-60 p-3 shadow-lg border border-primary/10">
         {navLinks.map((link) => (
-          <li><a href={link.href} data-nav-link>{link.label}</a></li>
+          <li><a href={link.href} data-nav-link data-mobile-nav-link>{link.label}</a></li>
         ))}
       </ul>
-    </div>
-    <a href="#hero" class="btn btn-ghost text-xl font-bold">
-      {siteConfig.businessName}
+    </details>
+    <a href="#hero">
+      <Image src={logo} alt="THUNDEBT" class="h-10 w-auto" />
     </a>
   </div>
 
@@ -43,10 +44,20 @@ const navLinks = [
     </ul>
   </div>
 
-  <div class="navbar-end"></div>
+  <div class="navbar-end">
+    <a href="#cta" class="btn btn-accent btn-sm">
+      ติดต่อเรา
+    </a>
+  </div>
 </div>
 
 <script>
+  document.querySelectorAll("[data-mobile-nav-link]").forEach((link) => {
+    link.addEventListener("click", () => {
+      link.closest("details")?.removeAttribute("open");
+    });
+  });
+
   // ─── Scroll spy ───
   const observer = new IntersectionObserver(
     (entries) => {

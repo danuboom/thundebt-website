@@ -1,0 +1,40 @@
+---
+/**
+ * Section 5 — Closing CTA
+ * Single app button + legal disclaimer.
+ */
+import { siteConfig, getContent } from "../../config/siteConfig";
+
+const { finalCta, hero } = getContent();
+const lineSocial = siteConfig.socials.find((s) => s.platform === "LINE");
+---
+
+<section id="cta" class="py-10 md:py-14 pb-14 md:pb-16">
+  <div class="mx-auto max-w-5xl px-6">
+  <div class="card bg-base-100 shadow-sm">
+  <div class="card-body text-center items-center p-8 md:p-10">
+    <h2 class="text-3xl font-bold md:text-4xl mb-4 text-base-content">{finalCta.title}</h2>
+    <p class="text-lg text-base-content/70 mb-6">{finalCta.subtitle}</p>
+    <div class="flex flex-col sm:flex-row items-center gap-3">
+      <a href={hero.cta.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg w-full sm:w-auto">
+        {hero.cta.label}
+      </a>
+      {lineSocial && (
+        <a href={lineSocial.url} target="_blank" rel="noopener noreferrer" class="btn btn-lg gap-2 bg-white text-success border-base-300 hover:bg-base-200">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+            <path d={lineSocial.svg} />
+          </svg>
+          <span>แชทผ่าน LINE</span>
+        </a>
+      )}
+    </div>
+    <!-- Legal disclaimer -->
+    <div class="mt-8">
+      <p class="text-xs text-base-content/40 leading-relaxed max-w-2xl mx-auto">
+        ข้อจำกัดความรับผิดชอบ: THUNDEBT เป็นเครื่องมือช่วยประเมินเบื้องต้นและเตรียมตัว สำหรับผู้ที่ได้รับหมายศาลในคดีหนี้ (บัตรเครดิต / สินเชื่อรถ / สินเชื่อบ้าน) ผลการประเมินและเนื้อหาใน Court Ready Pack ไม่ใช่คำปรึกษาทางกฎหมาย ไม่ใช่การรับรองผลคดี และไม่สามารถใช้แทนทนายความได้ เราไม่รับประกันผลแพ้-ชนะของคดี และแนะนำให้ปรึกษาทนายความหรือผู้เชี่ยวชาญทางกฎหมายเพิ่มเติม หากคดีของคุณมีความซับซ้อนหรือมีประเด็นที่ต้องตัดสินใจสำคัญ
+      </p>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>

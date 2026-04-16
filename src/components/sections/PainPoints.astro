@@ -1,0 +1,61 @@
+---
+/**
+ * Section 2 — ปัญหาที่เจอบ่อย (Pain Points)
+ * 3-card grid showing common debt problems.
+ */
+import { getContent } from "../../config/siteConfig";
+
+const { painPoints } = getContent();
+---
+
+<section id="pain-points" class="py-10 md:py-14 relative overflow-hidden">
+  <!-- Decorative accent -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-linear-to-r from-secondary via-accent to-secondary rounded-full opacity-60"></div>
+  <div class="mx-auto max-w-5xl px-6">
+    <div class="mb-10 text-center">
+      <div class="badge badge-secondary badge-dot mb-3">{painPoints.badge}</div>
+      <h2 class="text-3xl font-bold md:text-4xl">{painPoints.title}</h2>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        painPoints.items.map((item) => (
+          <div class="card bg-base-100 shadow-sm card-soft card-accent-bar">
+            <div class="card-body text-center items-center">
+              <div class="avatar placeholder mb-2">
+                <div class="bg-base-200 text-xl rounded-xl w-12 h-12 flex items-center justify-center">
+                  <span>{item.icon}</span>
+                </div>
+              </div>
+              <h3 class="card-title text-base">{item.title}</h3>
+              <ul class="text-base-content/70 text-sm leading-relaxed space-y-1 mt-2">
+                {item.bullets.map((bullet) => (
+                  <li class="flex items-start gap-2">
+                    <span class="text-secondary mt-0.5">&#x2022;</span>
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Bridge connector -->
+    <div class="card bg-base-100 shadow-sm mt-10 mx-auto max-w-2xl">
+      <div class="card-body text-center items-center p-8 md:p-10">
+        <div class="badge badge-secondary badge-dot">{painPoints.bridge.label}</div>
+        <h3 class="card-title text-xl md:text-2xl">{painPoints.bridge.headline}</h3>
+        <p class="text-lg font-semibold text-primary">{painPoints.bridge.subheadline}</p>
+        <p class="text-base-content/70 leading-relaxed">{painPoints.bridge.text}</p>
+        <div class="card-actions mt-4">
+          <a href={painPoints.bridge.cta.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+            {painPoints.bridge.cta.label}
+          </a>
+        </div>
+        <p class="text-xs text-base-content/40 mt-2">{painPoints.bridge.disclaimer}</p>
+      </div>
+    </div>
+  </div>
+</section>

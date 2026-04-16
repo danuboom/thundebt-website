@@ -1,0 +1,32 @@
+---
+/**
+ * Section 4 — คำถามที่พบบ่อย (FAQ)
+ * Standalone accordion.
+ */
+import { getContent } from "../../config/siteConfig";
+
+const { faq } = getContent();
+---
+
+<section id="faq" class="py-10 md:py-14">
+  <div class="mx-auto max-w-5xl px-6">
+    <div class="mb-10 text-center">
+      <div class="badge badge-primary badge-outline badge-dot mb-3">{faq.badge}</div>
+      <h2 class="text-3xl font-bold md:text-4xl">{faq.title}</h2>
+    </div>
+
+    <div class="space-y-2">
+      {
+        faq.items.map((item, i) => (
+          <div class="collapse collapse-arrow bg-base-100 rounded-2xl shadow-sm border-l-3 border-secondary/20 text-center md:text-left">
+            <input type="radio" name="faq-accordion" checked={i === 0} />
+            <div class="collapse-title font-semibold">{item.question}</div>
+            <div class="collapse-content">
+              <p class="text-base-content/70 leading-relaxed">{item.answer}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

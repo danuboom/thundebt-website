@@ -1,6 +1,6 @@
 ---
 /**
- * Final FAQ and closing CTA section.
+ * FAQ and closing CTA section.
  */
 import SocialIcon from "../SocialIcon.astro";
 import { siteConfig, getContent } from "../../config/siteConfig";
@@ -13,14 +13,14 @@ const lineSocial = siteConfig.socials.find((social) => social.platform === "LINE
 <section id="faq" class="bg-base-100 py-20 md:py-28">
   <div class="mx-auto max-w-3xl px-6">
     <div class="mb-14 text-center">
-      <div class="badge badge-primary badge-outline mb-3">{faq.badge}</div>
+      <div class="badge badge-primary badge-outline badge-dot mb-3">{faq.badge}</div>
       <h2 class="text-3xl font-bold md:text-4xl">{faq.title}</h2>
     </div>
 
     <div class="space-y-2">
       {
         faq.items.map((item, i) => (
-          <div class="collapse collapse-arrow bg-base-200 text-center md:text-left">
+          <div class="collapse collapse-arrow bg-secondary/10 rounded-2xl border border-primary/8 text-center md:text-left">
             <input type="radio" name="faq-accordion" checked={i === 0} />
             <div class="collapse-title font-semibold">{item.question}</div>
             <div class="collapse-content">
@@ -30,19 +30,22 @@ const lineSocial = siteConfig.socials.find((social) => social.platform === "LINE
         ))
       }
     </div>
+
   </div>
 </section>
 
 <!-- Final CTA -->
-<section id="cta" class="bg-primary text-primary-content py-20 md:py-28">
+<section id="cta" class="bg-base-100 py-20 md:py-28 relative overflow-hidden">
   <div class="mx-auto max-w-3xl px-6 text-center">
-    <h2 class="text-3xl font-bold md:text-4xl mb-4">{finalCta.title}</h2>
-    <p class="text-lg opacity-80 mb-8">{finalCta.subtitle}</p>
+    <div class="absolute top-0 right-0 w-72 h-72 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-56 h-56 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+    <h2 class="text-3xl font-bold md:text-4xl mb-4 relative text-base-content">{finalCta.title}</h2>
+    <p class="text-lg text-base-content/70 mb-8 relative">{finalCta.subtitle}</p>
     <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-      <a href={hero.cta.href} target="_blank" rel="noopener noreferrer" class="btn btn-accent btn-lg w-full sm:w-auto">
+      <a href={hero.cta.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg w-full sm:w-auto">
         {hero.cta.label}
       </a>
-      <a href={hero.ctaSecondary.href} target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg border border-current/20 w-full sm:w-auto">
+      <a href={hero.ctaSecondary.href} target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg w-full sm:w-auto">
         {lineSocial && <SocialIcon svg={lineSocial.svg} class="h-5 w-5" />}
         {hero.ctaSecondary.label}
       </a>

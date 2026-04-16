@@ -2,10 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import { getContent } from "../config/siteConfig";
 import Hero from "../components/sections/Hero.astro";
-import TargetAudience from "../components/sections/TargetAudience.astro";
-import HowItWorks from "../components/sections/HowItWorks.astro";
-import Benefits from "../components/sections/Benefits.astro";
-import CtaFaq from "../components/sections/CtaFaq.astro";
+import PainPoints from "../components/sections/PainPoints.astro";
+import Packages from "../components/sections/Packages.astro";
+import Faq from "../components/sections/Faq.astro";
+import Cta from "../components/sections/Cta.astro";
 
 const c = getContent();
 ---
@@ -13,9 +13,13 @@ const c = getContent();
 <Layout title={c.seoTitle} description={c.description}>
   <main>
     <Hero />
-    <TargetAudience />
-    <HowItWorks />
-    <Benefits />
-    <CtaFaq />
+    <div class="divider max-w-5xl mx-auto px-6"></div>
+    <PainPoints />
+    <div class="divider max-w-5xl mx-auto px-6"></div>
+    <Packages />
+    <div class="divider max-w-5xl mx-auto px-6"></div>
+    <Faq />
+    <div class="divider max-w-5xl mx-auto px-6"></div>
+    <Cta />
   </main>
 </Layout>

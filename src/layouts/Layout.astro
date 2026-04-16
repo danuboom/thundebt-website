@@ -1,6 +1,5 @@
 ---
 import { siteConfig, getContent } from "../config/siteConfig";
-import { Font } from "astro:assets";
 import Navbar from "../components/Navbar.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
@@ -24,7 +23,7 @@ const {
 const siteOrigin = Astro.site ?? new URL(siteConfig.siteUrl);
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin);
 const ogImageUrl = new URL(ogImage, siteOrigin);
-const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
+const faviconHref = `${import.meta.env.BASE_URL}favicon.png`;
 ---
 
 <!doctype html>
@@ -52,19 +51,21 @@ const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl.href} />
-    <link rel="icon" type="image/svg+xml" href={faviconHref} />
-    <Font cssVariable="--font-noto-sans-thai" preload />
+    <link rel="icon" type="image/png" href={faviconHref} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet" />
 
     <title>{title}</title>
 
   </head>
-  <body class="min-h-screen bg-base-100 text-base-content antialiased">
+  <body class="min-h-screen bg-base-200 text-base-content antialiased">
     <Navbar />
     <slot />
     <ScrollToTop />
 
     <!-- Footer -->
-    <footer class="footer footer-center bg-neutral text-neutral-content p-8">
+    <footer class="footer footer-center bg-base-100 text-base-content p-8 border-t border-primary/5">
       <div>
         <div class="flex flex-wrap justify-center gap-3 mb-4">
           {
@@ -86,6 +87,7 @@ const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
         <p>
           &copy; {new Date().getFullYear()} {businessName}. {footer.copyright}
         </p>
+        <p class="text-xs opacity-60 mt-2">{footer.disclaimer}</p>
         {
           footer.links.length > 0 && (
             <nav class="flex gap-4">
